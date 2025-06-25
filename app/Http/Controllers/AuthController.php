@@ -10,13 +10,17 @@ class AuthController extends Controller
 
    public function register(Request $request){
 
+    // note here we have to get the naem from front now its static
      $request->validate([
+        'username'=>'required',
         'name'=>'required',
         'email'=> 'required|email|unique:users',
         'password'=> 'required|min:6',
         ]);
 
+
         $user = User::create([
+            'username'=> $request->username,
             'name'=> $request->name,
             'email'=> $request->email,
             'password' => Hash::make($request->password),
