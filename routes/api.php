@@ -12,3 +12,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/register',[AuthController::class,'register'] );
 
 Route::post('/login',[AuthController::class,'login'] );
+
+Route::get('/user/{id}',[AuthController::class,'getUser']);
+
+Route::put('/user/{id}',[AuthController::class,'updateUser'] );
