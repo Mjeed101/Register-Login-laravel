@@ -81,6 +81,7 @@ public function getTimeline(Request $request)
             ->get()
             ->map(function($t) {
                 return [
+                    'id'=> $t->id,
                     'content' => $t->tweet_text,
                     'name'    => $t->user->name,
                     'date'    => $t->created_at->format('Y-m-d H:i'),
@@ -90,6 +91,36 @@ public function getTimeline(Request $request)
         return response()->json($tweets);
     }
 
+    public function deleteTweet(Request $request ,$id){
 
+
+
+        try {
+
+             $tweet = Tweet::find($id);
+
+             if (!$tweet) {
+                return response()->json(['message'=> 'tweet not found'],404);
+             }
+
+             if(!$request->has('userId')) {
+                return response()->json(['message'=> 'User ID is missing'],403);
+             }
+
+             if($tweet->user_id != $request->userId) {
+                return response()->json(['message'=> 'unauthorized'],0);
+             }
+
+        $tweet->delete();
+
+        return response()->json(['message'=> 'Tweet deleted successfully'],200);
+    } catch (\Exception $e) {
+
+        return response()->json([
+            'message'=> 'an error occurred while deleting the tweet.',
+            'error' => $e->getMessage()
+        ],500);
+}
+    }
 
 }
