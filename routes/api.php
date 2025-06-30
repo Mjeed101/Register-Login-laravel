@@ -22,3 +22,4 @@ Route::put('/user/{id}', [UserController::class, 'updateUser']);
 
 Route::post('/tweets', [TweetController::class, 'createTweet']);
 
+Route::get('/timeline', [TweetController::class, 'getTimeline']);
